@@ -27,7 +27,7 @@ public:
   {
     if (sz == 0 || sz > MAX_VECTOR_SIZE)
         throw out_of_range("Vector size should be greater than zero");
-    pMem = new T[sz];
+    pMem = new T[sz]();
   }
 
   TDynamicVector(T* arr, size_t s) : sz(s)
