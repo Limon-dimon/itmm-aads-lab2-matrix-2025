@@ -21,7 +21,6 @@ include_directories("${MP2_INCLUDE}" gtest)
 # BUILD
 add_subdirectory(gtest)
 add_subdirectory(test)
-add_definitions(-D_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING)
 
 # REPORT
 message( STATUS "")
