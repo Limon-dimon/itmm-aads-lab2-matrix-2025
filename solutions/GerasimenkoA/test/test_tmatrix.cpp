@@ -17,6 +17,11 @@ TEST(TDynamicMatrix, throws_when_create_matrix_with_negative_length)
 	ASSERT_ANY_THROW(TDynamicMatrix<int> m(-5));
 }
 
+TEST(TDynamicMatrix, throws_when_create_matrix_with_zero_length)
+{
+	ASSERT_ANY_THROW(TDynamicMatrix<int> m(0));
+}
+
 TEST(TDynamicMatrix, can_create_copied_matrix)
 {
 	TDynamicMatrix<int> m(5);
@@ -72,13 +77,13 @@ TEST(TDynamicMatrix, can_set_and_get_element)
 TEST(TDynamicMatrix, throws_when_set_element_with_negative_index)
 {
 	TDynamicMatrix<int> v(4);
-	ASSERT_ANY_THROW(v[-1][-1]);
+	ASSERT_ANY_THROW(v.at(-1).at(-1));
 }
 
 TEST(TDynamicMatrix, throws_when_set_element_with_too_large_index)
 {
 	TDynamicMatrix<int> v(4);
-	ASSERT_ANY_THROW(v[5][5]);
+	ASSERT_ANY_THROW(v.at(5).at(5));
 }
 
 TEST(TDynamicMatrix, can_assign_matrix_to_itself)

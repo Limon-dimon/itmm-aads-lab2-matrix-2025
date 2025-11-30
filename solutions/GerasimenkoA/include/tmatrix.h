@@ -25,7 +25,8 @@ protected:
 public:
   TDynamicVector(size_t size = 1) : sz(size)
   {
-    if (sz == 0 || sz > MAX_VECTOR_SIZE) throw out_of_range("Vector size should be greater than zero");
+    if (sz == 0) throw out_of_range("Vector size should be greater than zero");
+    if (sz > MAX_VECTOR_SIZE) throw out_of_range("Vector size should be less than the maximum");
     pMem = new T[sz]();
   }
 
@@ -110,13 +111,11 @@ public:
   // индексация
   T& operator[](size_t ind)
   {
-      if (ind >= sz) throw out_of_range("Index out of range");
       return pMem[ind];
   }
 
   const T& operator[](size_t ind) const
   {
-      if (ind >= sz) throw out_of_range("Index out of range");
       return pMem[ind];
   }
 
@@ -229,9 +228,9 @@ public:
 
   friend ostream& operator<<(ostream& ostr, const TDynamicVector& v)
   {
-      for (size_t i = 0; i < v.sz; ++i) {
-          ostr << v.pMem[i];
-          if (i + 1 < v.sz) ostr << ' '; 
+      ostr << v.pMem[0];
+      for (size_t i = 1; i < v.sz; ++i) {
+          ostr << " " << v.pMem[i];
       }                                     
     return ostr;
   }
@@ -249,7 +248,8 @@ class TDynamicMatrix : private TDynamicVector<TDynamicVector<T>>
 public:
   TDynamicMatrix(size_t s = 1) : TDynamicVector<TDynamicVector<T>>(s)
   {
-      if (sz == 0 || sz > MAX_MATRIX_SIZE) throw out_of_range("Vector size should be greater than zero"); 
+      if (sz == 0) throw out_of_range("Vector size should be greater than zero");
+      if (sz > MAX_MATRIX_SIZE) throw out_of_range("Vector size should be less than the maximum");
       for (size_t i = 0; i < sz; i++)
         pMem[i] = TDynamicVector<T>(sz);
   }
@@ -257,6 +257,7 @@ public:
   size_t size() const noexcept { return sz; } 
 
   using TDynamicVector<TDynamicVector<T>>::operator[];
+  using TDynamicVector<TDynamicVector<T>>::at;
 
   // сравнение
   bool operator==(const TDynamicMatrix& m) const noexcept
@@ -271,8 +272,9 @@ public:
   // матрично-скалярные операции
   TDynamicMatrix operator*(const T& val)
   {
+      TDynamicMatrix result(sz);
       for (size_t i = 0; i < sz; ++i) {
-          pMem[i] *= val;
+          result.pMem[i] = pMem[i] * val;
       }
       return *this;
   }
