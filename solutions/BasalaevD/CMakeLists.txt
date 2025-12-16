@@ -1,0 +1,8 @@
+cmake_minimum_required(VERSION 3.10) 
+project(lab2) 
+set(CMAKE_CXX_STANDARD 11) 
+set(CMAKE_CXX_STANDARD_REQUIRED ON) 
+enable_testing() 
+add_executable(lab2_tests test/test_main.cpp test/test_tvector.cpp test/test_tmatrix.cpp gtest/gtest-all.cc) 
+target_include_directories(lab2_tests PRIVATE include) 
+target_include_directories(lab2_tests PRIVATE gtest) 
